@@ -1,0 +1,11 @@
+{
+  "en": {
+    "common.greet": "Hello",
+    "common.greet.phrase": "Hello, {name}!"
+  },
+  "ru": {
+    "common.greet": "Привет",
+    "common.greet.phrase": "Привет, {name}!"
+  },
+  "sn": 18
+}

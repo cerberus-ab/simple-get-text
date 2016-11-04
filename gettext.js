@@ -2,7 +2,7 @@
  * Simple gettext tool
  *
  * @author Antony Belov <cerberus.ab@mail.ru>
- * @license
+ * @license MIT
  * @module GetText
  * @returns {constructor}
  */
@@ -22,6 +22,28 @@
 }(this, function() {
 
     'use strict';
+
+    // Polyfill for Object.assign
+    var objectAssign = typeof Object.assign != 'function'
+        ? function(target) {
+            if (target === undefined || target === null) {
+                throw new TypeError('Cannot convert undefined or null to object');
+            }
+
+            var output = Object(target);
+            for (var index = 1; index < arguments.length; index++) {
+                var source = arguments[index];
+                if (source !== undefined && source !== null) {
+                    for (var nextKey in source) {
+                        if (source.hasOwnProperty(nextKey)) {
+                            output[nextKey] = source[nextKey];
+                        }
+                    }
+                }
+            }
+            return output;
+        }
+        : Object.assign;
 
     /**
      * GetText class
@@ -48,7 +70,7 @@
         if (typeof this._dictionaries[locale] == 'undefined') {
             throw new ReferenceError(locale + ' is unknown dictionary');
         }
-        return new Getter(this._dictionaries[locale], Object.assign({}, options || {}, {
+        return new Getter(this._dictionaries[locale], objectAssign({}, options || {}, {
             locale: locale
         }));
     };
@@ -56,16 +78,13 @@
     /**
      * Getter class
      *
-     * TODO: think about separator using necessity
-     *
      * @constructor
      * @param {object} dictionary, Associative key-value array
      * @param {object} options,
      */
     function Getter(dictionary, options) {
-        this._options = Object.assign({
+        this._options = objectAssign({
             locale: 'en',
-            separator: '.',
             placeholder: '!UNDEFINED TEXT!',
             silent: false
 
@@ -153,7 +172,7 @@
         return function() {
             // change first argument: expected property key
             var args = Array.prototype.slice.call(arguments);
-            args[0] = context + (context.length ? that._options.separator : '') + args[0];
+            args[0] = context + args[0];
 
             return that.get.apply(that, args);
         }
@@ -170,7 +189,7 @@
         if (!Getter._isDictionary(dictionary)) {
             throw new TypeError('the used dictionary is invalid');
         }
-        this._dictionary = Object.assign(this._dictionary, dictionary);
+        this._dictionary = objectAssign(this._dictionary, dictionary);
 
         return this;
     };

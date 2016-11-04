@@ -33,7 +33,7 @@ describe('Simple gettext tool specification', () => {
 
     describe('getter instance', () => {
         let inst = new GetText(dictionaries).useLocale('en'),
-            optionsKeys = ['locale', 'separator', 'placeholder', 'silent'];
+            optionsKeys = ['locale', 'placeholder', 'silent'];
 
         it('constructor should throw error in case with invalid used dictionary', () => {
             assert.throws(() => { new GetText(dictionaries).useLocale('sn'); }, TypeError);
@@ -80,7 +80,7 @@ describe('Simple gettext tool specification', () => {
             assert.equal('function', typeof inst.use);
         });
         it('should return binded get function using context and concatenated by options separator', () => {
-            let uses = inst.use('common');
+            let uses = inst.use('common.');
             assert.equal("Hello", uses('greet'));
             assert.equal("Hello, world!", uses('greet.phrase', { name: 'world' }));
         });

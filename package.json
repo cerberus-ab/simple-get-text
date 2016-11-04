@@ -5,7 +5,10 @@
   "main": "gettext.js",
   "scripts": {
     "test": "mocha ./specs/**/*.spec.js",
-    "build:js": "uglifyjs ./gettext.js > ./gettext.min.js --preamble '/*! Simple gettext tool - v0.3 - 2016; Licensed MIT */'"
+    "build:js": "uglifyjs ./gettext.js > ./gettext.min.js --preamble '/*! Simple gettext tool - v0.3 - 2016; Licensed MIT */'",
+    "preversion": "npm test",
+    "version": "npm run build:js && git add -A",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",

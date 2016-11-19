@@ -1,6 +1,6 @@
 {
   "name": "simple-get-text",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Simple gettext tool",
   "main": "gettext.js",
   "scripts": {

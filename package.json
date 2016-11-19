@@ -4,7 +4,9 @@
   "description": "Simple gettext tool",
   "main": "gettext.js",
   "scripts": {
-    "test": "mocha ./specs/**/*.spec.js",
+    "check-coverage": "istanbul check-coverage --statements 80 --functions 80 --branches 80 ./bin/coverage/coverage.json",
+    "cover": "istanbul cover --report html --dir ./bin/coverage -i gettext.js node_modules/.bin/_mocha ./specs/**/*.[sS]pec.js",
+    "test": "npm run cover && npm run check-coverage",
     "build:js": "uglifyjs ./gettext.js > ./gettext.min.js --preamble '/*! Simple gettext tool - v0.3 - 2016; Licensed MIT */'",
     "preversion": "npm test",
     "version": "npm run build:js && git add -A",
@@ -26,6 +28,7 @@
   },
   "homepage": "https://github.com/cerberus-ab/simple-get-text#readme",
   "devDependencies": {
+    "istanbul": "^0.4.5",
     "mocha": "^3.1.2",
     "uglify-js": "^2.7.4"
   }
